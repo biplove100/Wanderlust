@@ -1,0 +1,193 @@
+<%- layout("layouts/boilerplate") %>
+    <%= success %>
+
+        <!-- <h3>All Listings</h3> -->
+
+        <!--Button for creating a new Listing-->
+        <!-- <form method="GET" action="/listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+
+        <style>
+            .scrollable-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 85%;
+                margin: auto;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .scroll-content {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                width: 100%;
+            }
+
+            .filter {
+                flex: 0 0 auto;
+                text-align: center;
+                margin-right: 2rem;
+                margin-bottom: 2rem;
+                opacity: 0.8;
+            }
+
+            .filter:hover {
+                opacity: 1;
+                cursor: pointer;
+                border: 0.1rem solid #f4f4f4;
+                border-radius: 5px;
+                transform: scale(1.1);
+            }
+
+            .filter p {
+                font-size: 0.8rem;
+            }
+
+            .scroll-btn {
+                background-color: #f4f4f4;
+                border: none;
+                padding: 0.5rem 1rem;
+                cursor: pointer;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .left-btn {
+                left: 0;
+            }
+
+            .right-btn {
+                right: 0;
+            }
+
+            @media (max-width: 768px) {
+                .scrollable-container {
+                    width: 100%;
+                    flex-direction: column;
+                    display: none;
+                }
+            }
+            .taxInfo{
+                display: none;
+            }
+        </style>
+
+        <div class="scrollable-container">
+            <button class="scroll-btn left-btn" onclick="scrollLeft()">←</button>
+            <div id="filters" class="scroll-content">
+                <div class="filter">
+                    <div><i class="fa-solid fa-fire"></i></div>
+                    <p>Trending</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-house-chimney"></i></div>
+                    <p>Rooms</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-mountain-city"></i></div>
+                    <p>Iconic cities</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-mountain"></i></div>
+                    <p>Mountains</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-brands fa-fort-awesome"></i></div>
+                    <p>Castles</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-person-swimming"></i></div>
+                    <p>Amazing pools</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-campground"></i></div>
+                    <p>Camping</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-tractor"></i></div>
+                    <p>Farms</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-regular fa-snowflake"></i></div>
+                    <p>Arctic</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-brands fa-phoenix-framework"></i></div>
+                    <p>Bird watching</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-otter"></i></div>
+                    <p>Zoo</p>
+                </div>
+                <div class="filter">
+                    <div><i class="fa-solid fa-vihara"></i></i></div>
+                    <p>Spiritual</p>
+                </div>
+
+                <div class="tax-toggle">
+                    <div class="form-check-reverse form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Taxes</label>
+                    </div>
+                </div>
+
+            </div>
+            <button class="scroll-btn right-btn" onclick="scrollRight()">→</button>
+        </div>
+
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1" style="margin-right:0;">
+            <% for(let listing of allListings) { %>
+                <a href="/listings/<%= listing._id %>" class="listing-link">
+                    <div class="card col listing-card">
+                        <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing's Image"
+                            style="height: 20rem;">
+                        <div class="card-img-overlay">Click</div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b>
+                                    <%= listing.title %>
+                                </b>
+                                <br>
+                                &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "Price not available"
+                                    %> / night
+                                    <i class="taxInfo">&nbsp;&nbsp; +18% taxes</i>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <% } %>
+        </div>
+
+        <script>
+            function scrollLeft() {
+                document.querySelector('.scroll-content').scrollBy({
+                    left: -200,
+                    behavior: 'smooth'
+                });
+            }
+
+            function scrollRight() {
+                document.querySelector('.scroll-content').scrollBy({
+                    left: 200,
+                    behavior: 'smooth'
+                });
+            }
+
+
+            let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+            taxSwitch.addEventListener("click", () => {
+                let taxInfo = document.getElementsByClassName("taxInfo");
+                for(info of taxInfo){
+                    if(info.style.display != "inline"){
+                        info.style.display = "inline";
+                    }
+                    else{
+                        info.style.display = "none";
+                    }
+                }
+            });
+        </script>
