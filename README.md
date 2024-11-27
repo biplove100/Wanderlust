@@ -108,7 +108,7 @@ Wanderlust/
 ---
 
 ## Usage Instructions
-### Add a New Task
+### Add a New Listing
 1.Navigate to `/listings/signup`.
   - **Username**: Enter a username.
   - **Email**: Enter your email.
